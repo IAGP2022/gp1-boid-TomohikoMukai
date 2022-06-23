@@ -6,11 +6,16 @@ public class BoidMotion : MonoBehaviour
 {
     // TODO: このボイドクラスが持つべきデータ・属性・バリエーション（フィールド）とは？
     // それぞれで異なる可能性がある数値
-    Vector3 position;  // 位置
-    Vector3 direction; // 移動方向
-    float speed;       // 移動速度
+    private Vector3 position;  // 位置
+    private Vector3 direction; // 移動方向
+    private float speed;       // 移動速度
     // or
     // Vector3 velocity; // 速度ベクトル？
+
+    public Vector3 Position
+    {
+        get { return position; }
+    }
 
     // - 色、大きさ
     // - 対人距離、近寄りがたさ etc...
@@ -36,8 +41,35 @@ public class BoidMotion : MonoBehaviour
     void Start()
     {
     }
+
     void Update()
     {
+        // 自分自身も含む全てのボイドを探す = Boid というタグが付いている全てのゲームオブジェクトを取得する
+        GameObject[] boids = GameObject.FindGameObjectsWithTag("Boid"); // 見つけたボイドを boids という配列に格納
+
+        // boidsの中にいる自分自身を特定する　＝　各ボイドの名前をチェックし自分の名前と一致するか確認
+        // 他のボイドの位置を知り、一定距離内にいるか、一定距離外にいるか、チェック
+        for (int i = 0; i < boids.Length; ++i)
+        {
+            if (boids[i].name != this.gameObject.name)// 他のボイド？
+            {
+                BoidMotion boidMotion = boids[i].GetComponent<BoidMotion>(); //BoidMotionコンポーネント
+
+                //  一定距離の内外をチェック
+                //   距離の計算　＝　自分の位置と、相手の位置の、間の距離を計算
+                float distance =  ??? ;// TODO: this.position, boidMotion.Position の間の距離を計算
+                //   求まった距離が、ある値未満か、ある値以上かをチェック
+                if (distance < 2.0f)
+                {
+                    Debug.Log("NEAR!");
+                }
+
+                // boids[i].transform.position (あえて使わない)
+                //Debug.Log(boids[i].name + ", " + this.gameObject.name);
+            }
+        }
+
+
         // 次の位置 = 現在位置と、速度 * 移動方向 * Time.deltaTimeの和
         position = position + (Time.deltaTime * direction * speed);
         transform.position = position; // ゲームオブジェクトに反映

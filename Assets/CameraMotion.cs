@@ -41,14 +41,19 @@ class MyVector2
     }
 }
 
+// 銀行口座クラス
 class BankAcount
 {
+    // フィールド
     private int balance; // 預金残高
 
+    // コンストラクタ
     public BankAcount(int yen) // 最初の預け入れ指定
     {
         balance = yen;
     }
+
+    // 引き出し
     public void Withdraw(int yen)
     {
         if (balance > yen)
@@ -56,11 +61,27 @@ class BankAcount
             balance -= yen;
         }
     }
+
+    // 預け入れ
     public void Deposit(int yen)
     {
         if (yen > 0)
         {
             balance += yen;
+        }
+    }
+
+    // 残高照会メソッド GetBalance
+    public int GetBalance()
+    {
+        return balance;
+    }
+
+    public int Balance //()ナシ
+    {
+        get //()なし
+        {
+            return balance;
         }
     }
 }
@@ -76,6 +97,8 @@ public class CameraMotion : MonoBehaviour
         myacount.Deposit(100);
         myacount.Deposit(1000);
         myacount.Withdraw(500);
+        int zandaka = myacount.Balance;
+        Debug.Log(zandaka);
 
         PersonalData tomo = new PersonalData();
         tomo.name = "Mukai Tomohiko";
