@@ -56,8 +56,10 @@ public class BoidMotion : MonoBehaviour
                 BoidMotion boidMotion = boids[i].GetComponent<BoidMotion>(); //BoidMotionコンポーネント
 
                 //  一定距離の内外をチェック
-                //   距離の計算　＝　自分の位置と、相手の位置の、間の距離を計算
-                float distance =  ??? ;// TODO: this.position, boidMotion.Position の間の距離を計算
+                //   距離の計算　＝　// TODO: this.position, boidMotion.Position の間の距離を計算
+                float distance = Vector3.Distance(this.position, boidMotion.Position);
+                //float distance = (this.position - boidMotion.Position).magnitude;
+
                 //   求まった距離が、ある値未満か、ある値以上かをチェック
                 if (distance < 2.0f)
                 {
