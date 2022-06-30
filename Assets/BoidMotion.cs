@@ -8,7 +8,11 @@ public class BoidMotion : MonoBehaviour
     // それぞれで異なる可能性がある数値
     private Vector3 _position;  // 位置
     private Vector3 _direction; // 移動方向
-    private float _speed;       // 移動速度
+    // 個性化のためのパラメータ
+    private float _speed;       // 移動速度（最初に決定して、あとは固定）
+    private float _leaderFollowCoef; // leader-following-coefficient（どれほど強く、リーダーを追いかけるのか）
+    private float _separationCoef; // separation-coefficient (分離係数)
+    private float _minSeparationDist; // minimum-separation-distance 最小分離距離（limit）
 
     public GameObject _leader; // リーダー
                               // or
@@ -39,6 +43,9 @@ public class BoidMotion : MonoBehaviour
         _direction.y = Random.Range(-1.0f, 1.0f);
         _direction.z = Random.Range(-1.0f, 1.0f);     
         _speed = Random.Range(0.0f, 5.0f); // 5.0は適当な数値
+        _leaderFollowCoef = Random.Range(0.5f, 3.0f); // リーダー追跡力係数をボイドごとに乱数
+        _separationCoef = Random.Range(0, 2.0f); // 分離係数
+        _minSeparationDist = Random.Range(0, 5.0f); // 最小分離距離（限界距離）
     }
 
     void Start()
@@ -51,6 +58,7 @@ public class BoidMotion : MonoBehaviour
     {
         // TODO: 力の合成について個性を与える
         // TODO: プレハブを使って多数のボイドを自動生成
+        // TODO: リファクタリング（コードの整理・再構成→メソッドに小分けにする）
         // TODO: C#文法の説明（オブジェクト指向プログラミングの説明）
 
         // 新しい移動方向（色々な力によって修正されていく）
@@ -61,7 +69,7 @@ public class BoidMotion : MonoBehaviour
         // 3. リーダーがいる方向に向かう力を算出
         Vector3 leaderForce = leaderMotion.Position - this._position;
         // 自分が行きたい方向と、リーダーへ向かう力との足し算＝修正された移動方向
-        newDirection = newDirection + leaderForce;
+        newDirection = newDirection + _leaderFollowCoef * leaderForce;
         // 他のボイドの位置を求め、一定距離内にいるものから離れるための力を計算することで、移動方向newDirectionを修正
         for (int i = 0; i < _boids.Length; ++i) {
             if (_boids[i].name != this.gameObject.name) {// 他のボイド？
@@ -69,9 +77,9 @@ public class BoidMotion : MonoBehaviour
                 //  他ボイドとの距離を計算
                 float distance = Vector3.Distance(this._position, boidMotion.Position);
                 //  求まった距離が、ある値未満であれば（近すぎるのであれば）避ける力を計算して移動方向を修正
-                if (distance < 2.0f) {
+                if (distance < _minSeparationDist) {
                     Debug.Log("NEAR!");
-                    newDirection = newDirection + ???; // 避ける力を計算して移動方向を修正
+                    // newDirection = newDirection + _separationCoef * ???; // 避ける力を計算して移動方向を修正
                 }
             }
         }
