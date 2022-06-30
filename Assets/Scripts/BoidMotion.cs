@@ -22,6 +22,7 @@ public class BoidMotion : MonoBehaviour
     public Vector3 Position
     {
         get { return _position; }
+        set { _position = value; }
     }
 
     // - 色、大きさ
@@ -42,7 +43,7 @@ public class BoidMotion : MonoBehaviour
         _direction.x = Random.Range(-1.0f, 1.0f);
         _direction.y = Random.Range(-1.0f, 1.0f);
         _direction.z = Random.Range(-1.0f, 1.0f);     
-        _speed = Random.Range(0.0f, 5.0f); // 5.0は適当な数値
+        _speed = Random.Range(1.0f, 10.0f); // 5.0は適当な数値
         _leaderFollowCoef = Random.Range(0.5f, 3.0f); // リーダー追跡力係数をボイドごとに乱数
         _separationCoef = Random.Range(0, 2.0f); // 分離係数
         _minSeparationDist = Random.Range(0, 5.0f); // 最小分離距離（限界距離）
