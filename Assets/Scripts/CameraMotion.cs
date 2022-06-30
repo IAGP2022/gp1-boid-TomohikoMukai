@@ -97,8 +97,6 @@ public class CameraMotion : MonoBehaviour
         myacount.Deposit(100);
         myacount.Deposit(1000);
         myacount.Withdraw(500);
-        int zandaka = myacount.Balance;
-        Debug.Log(zandaka);
 
         PersonalData tomo = new PersonalData();
         tomo.name = "Mukai Tomohiko";
@@ -114,14 +112,12 @@ public class CameraMotion : MonoBehaviour
         a.x = 0.0f;
         a.y = 10.0f;
         //Debug.Log(a.x + ", " + a.y);
-        a.DebugLog();
         float la = a.Magnitude(); // aの長さ 
 
         MyVector2 b = new MyVector2(20.0f, 0.0f);
         //b.x = 20.0f;
         //b.y = 0.0f;
         //Debug.Log(b.x + ", " + b.y);
-        b.DebugLog();
         float lb = b.Magnitude();
     }
 
